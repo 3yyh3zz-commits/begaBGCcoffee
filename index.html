@@ -450,8 +450,8 @@
             </div>
             
             <div class="review-input-box">
-                <input type="text" id="modalAuthor" placeholder="작성자 닉네임">
-                <textarea id="modalText" placeholder="이 메뉴에 대한 소중한 리뷰를 남겨주세요..."></textarea>
+                <input type="text" id="modalAuthor" placeholder="닉네임 입력하기@잇">
+                <textarea id="modalText" placeholder="리뷰 남기기@잇"></textarea>
                 <button class="review-submit-btn" onclick="submitModalReview()">리뷰 등록하기</button>
             </div>
 
@@ -555,7 +555,7 @@
                                 <div class="menu-desc">${menu.desc}</div>
                                 <div class="nutrition-box">${menu.nutrition}</div>
                             </div>
-                            <div class="card-click-guide">✨ 클릭하여 리뷰 작성 및 확인</div>
+                            <div class="card-click-guide">✨ 클릭하여 리뷰 작성 및 확인하기@잇</div>
                         </div>
                     `;
                 });
@@ -608,7 +608,7 @@
             const text = textInput.value.trim();
 
             if (!author || !text) {
-                alert('작성자와 리뷰 내용을 모두 입력해주세요.');
+                alert('닉네임과 리뷰 내용 입력하기@잇');
                 return;
             }
 
@@ -653,7 +653,7 @@
                 textInput.value = '';
 
                 renderModalReviews();
-                alert('리뷰 등록이 완료되었습니다!');
+                alert('리뷰 등록 완료! 사이테사랑해어흐어흐할쨕낼름쿰척냠냠츄베릅으럇으럇쭈왑쭈왑');
             })
             .catch(error => {
                 console.error('Error!', error.message);
