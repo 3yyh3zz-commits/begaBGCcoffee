@@ -450,9 +450,9 @@
             </div>
             
             <div class="review-input-box">
-                <input type="text" id="modalAuthor" placeholder="닉네임 입력하기@잇">
-                <textarea id="modalText" placeholder="리뷰 남기기@잇"></textarea>
-                <button class="review-submit-btn" onclick="submitModalReview()">리뷰 등록하기</button>
+                <input type="text" id="modalAuthor" placeholder="작성자 닉네임">
+                <textarea id="modalText" placeholder="이 메뉴에 대한 소중한 리뷰를 남겨주세요..."></textarea>
+                <button class="review-submit-btn" onclick="submitModalReview()">리뷰 등록하기@잇</button>
             </div>
 
             <div class="modal-review-list" id="modalReviewList">
@@ -555,7 +555,7 @@
                                 <div class="menu-desc">${menu.desc}</div>
                                 <div class="nutrition-box">${menu.nutrition}</div>
                             </div>
-                            <div class="card-click-guide">✨ 클릭하여 리뷰 확인하기@잇</div>
+                            <div class="card-click-guide">✨ 클릭하여 리뷰 작성 및 확인</div>
                         </div>
                     `;
                 });
@@ -599,7 +599,7 @@
             }
         });
 
-        // 모달 내 리뷰 등록 (날짜와 시간 분리 및 새 스크립트 주소 연동)
+        // 모달 내 리뷰 등록
         function submitModalReview() {
             const authorInput = document.getElementById('modalAuthor');
             const textInput = document.getElementById('modalText');
@@ -608,7 +608,7 @@
             const text = textInput.value.trim();
 
             if (!author || !text) {
-                alert('닉네임과 리뷰 내용 입력하기@잇');
+                alert('작성자와 리뷰 내용을 모두 입력해주세요.');
                 return;
             }
 
@@ -624,7 +624,6 @@
                 time: timeStr
             };
 
-            // 새로 발급받으신 Apps Script 웹 앱 URL
             const scriptURL = 'https://script.google.com/macros/s/AKfycbxKZv3kS0chK6llMZcQlXz4yYynVLYDWxz-_qUMG8PK1GVTZxPpPxHClZgJ1X8LyXM0VA/exec';
 
             fetch(scriptURL, {
@@ -644,7 +643,7 @@
                     id: reviewId,
                     author: author,
                     text: text,
-                    dateTime: `${dateStr} ${timeStr}` // 화면 출력용 날짜+시간
+                    dateTime: `${dateStr} ${timeStr}`
                 });
 
                 localStorage.setItem('bega_reviews', JSON.stringify(reviewsData));
@@ -653,7 +652,7 @@
                 textInput.value = '';
 
                 renderModalReviews();
-                alert('리뷰 등록 완료! 사이테사랑해어흐어흐할쨕낼름쿰척냠냠츄베릅으럇으럇쭈왑쭈왑');
+                alert('리뷰 등록이 완료되었습니다!');
             })
             .catch(error => {
                 console.error('Error!', error.message);
@@ -670,12 +669,11 @@
             const reviews = reviewsData[currentActiveMenu] || [];
 
             if (reviews.length === 0) {
-                listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px; font-weight:300;">등록된 리뷰가 없다냥! 첫 리뷰를 등록해보라냥!</div>`;
+                listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px; font-weight:300;">등록된 리뷰가 없습니다. 첫 리뷰를 남겨보세요.</div>`;
                 return;
             }
 
             reviews.forEach(r => {
-                // 기존 데이터 호환을 위해 dateTime이 없으면 r.date 사용
                 const displayTime = r.dateTime || r.date || '';
                 const item = document.createElement('div');
                 item.className = 'modal-review-item';
@@ -692,7 +690,7 @@
 
         // 개별 리뷰 삭제 함수
         function deleteModalReview(reviewId) {
-            if (!confirm('진짜 리뷰 삭제할거임?')) return;
+            if (!confirm('정말 이 리뷰를 삭제하시겠습니까?')) return;
 
             if (reviewsData[currentActiveMenu]) {
                 reviewsData[currentActiveMenu] = reviewsData[currentActiveMenu].filter(r => r.id !== reviewId);
