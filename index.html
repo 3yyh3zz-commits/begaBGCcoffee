@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -467,7 +467,7 @@
     </footer>
 
     <script>
-        // 마우스 우클릭 방지 (알림창 없이 조용히 차단)
+        // 마우스 우클릭 방지
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
@@ -555,7 +555,7 @@
                                 <div class="menu-desc">${menu.desc}</div>
                                 <div class="nutrition-box">${menu.nutrition}</div>
                             </div>
-                            <div class="card-click-guide">✨ 클릭하여 리뷰 작성 및 확인하기@잇</div>
+                            <div class="card-click-guide">✨ 클릭하여 리뷰 작성 및 확인</div>
                         </div>
                     `;
                 });
@@ -599,7 +599,7 @@
             }
         });
 
-        // 모달 내 리뷰 등록 (구글 스프레드시트 연동 포함)
+        // 모달 내 리뷰 등록 (날짜와 시간 분리 및 새 스크립트 주소 연동)
         function submitModalReview() {
             const authorInput = document.getElementById('modalAuthor');
             const textInput = document.getElementById('modalText');
@@ -608,18 +608,24 @@
             const text = textInput.value.trim();
 
             if (!author || !text) {
-                alert('작성자와 리뷰 내용 모두 입력하기@잇');
+                alert('작성자와 리뷰 내용을 모두 입력해주세요.');
                 return;
             }
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
             const reviewData = {
                 menuName: currentActiveMenu,
                 author: author,
                 text: text,
-                date: new Date().toLocaleDateString()
+                date: dateStr,
+                time: timeStr
             };
 
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwTU-2YqEYqRDMrSF3IaKYWLIu4yg6vSIEIlrIKu8qkviXF4z8tM2cePcZWtzBIY4lE8w/exec';
+            // 새로 발급받으신 Apps Script 웹 앱 URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxKZv3kS0chK6llMZcQlXz4yYynVLYDWxz-_qUMG8PK1GVTZxPpPxHClZgJ1X8LyXM0VA/exec';
 
             fetch(scriptURL, {
                 method: 'POST',
@@ -638,7 +644,7 @@
                     id: reviewId,
                     author: author,
                     text: text,
-                    date: reviewData.date
+                    date: `${dateStr} ${timeStr}`
                 });
 
                 localStorage.setItem('bega_reviews', JSON.stringify(reviewsData));
@@ -647,7 +653,7 @@
                 textInput.value = '';
 
                 renderModalReviews();
-                alert('리뷰가 등록되었다냥 루왁디스펜서야 사랑해 넌 내꼬얌 어흐어흐 할쨕낼름쿰척츄베릅으럇으럇');
+                alert('리뷰 등록이 완료되었습니다!');
             })
             .catch(error => {
                 console.error('Error!', error.message);
