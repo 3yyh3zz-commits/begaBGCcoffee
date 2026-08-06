@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>BEGA COFFEE | Saite's Luwak coffee (해당 사이트는 가상으로 만든 웹사이트입니다.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0f0e;
+            --card-bg: #131715;
+            --card-hover: #19201c;
+            --border-color: #212c26;
+            /* 요청하신 포인트 컬러 #2CB05F 및 관련 톤 */
+            --accent: #2CB05F;
+            --accent-hover: #34cf6e;
+            --accent-light: #bbf2d0;
+            --accent-sub: #1e7540;
+            --text-main: #f5f5f5;
+            --text-sub: #9da6a1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: -0.015em;
+            overflow-x: hidden;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: rgba(13, 15, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(44, 176, 95, 0.3));
+        }
+
+        .logo > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            font-size: 10px;
+            display: block;
+            color: var(--text-sub);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 3px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .notice {
+            font-size: 12px;
+            color: var(--accent-light);
+            border: 1px solid rgba(44, 176, 95, 0.35);
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(44, 176, 95, 0.08);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* 전체 컨테이너 */
+        .container {
+            max-width: 1400px;
+            margin: 60px auto 100px;
+            padding: 0 40px;
+        }
+
+        /* 카테고리 섹션 스타일 */
+        .menu-section {
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--text-main);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title span {
+            color: var(--accent);
+        }
+
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--border-color) 40%, transparent 100%);
+            opacity: 0.5;
+        }
+
+        /* 메뉴 그리드 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            background-color: var(--card-hover);
+            border-color: rgba(44, 176, 95, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .tag {
+            position: absolute;
+            top: 28px;
+            right: 32px;
+            font-size: 10px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            background: rgba(44, 176, 95, 0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(44, 176, 95, 0.3);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .menu-card.new .tag {
+            color: #4cd980;
+            background: rgba(76, 217, 128, 0.12);
+            border-color: rgba(76, 217, 128, 0.3);
+        }
+
+        .menu-name {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            padding-right: 70px;
+            letter-spacing: -0.01em;
+        }
+
+        .menu-desc {
+            font-size: 13.5px;
+            color: var(--text-sub);
+            line-height: 1.65;
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .nutrition-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 12px;
+            color: var(--text-sub);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+        }
+
+        .nutrition-box span {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .card-click-guide {
+            font-size: 11.5px;
+            color: var(--accent);
+            text-align: right;
+            font-weight: 500;
+            opacity: 0.85;
+            letter-spacing: -0.2px;
+            transition: opacity 0.2s;
+        }
+
+        .menu-card:hover .card-click-guide {
+            opacity: 1;
+            color: var(--accent-hover);
+        }
+
+        /* 팝업 모달 스타일 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 6, 5, 0.88);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #111513;
+            border: 1px solid rgba(44, 176, 95, 0.35);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 540px;
+            padding: 36px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.85);
+            position: relative;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 4px;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-main);
+        }
+
+        .review-input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .review-input-box input, 
+        .review-input-box textarea {
+            width: 100%;
+            background: #080a09;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 13.5px;
+            transition: border-color 0.2s;
+        }
+
+        .review-input-box textarea {
+            resize: none;
+            height: 90px;
+        }
+
+        .review-input-box input:focus, 
+        .review-input-box textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .review-submit-btn {
+            background: var(--accent);
+            border: none;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .review-submit-btn:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 15px rgba(44, 176, 95, 0.4);
+        }
+
+        .modal-review-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 280px;
+            padding-right: 4px;
+        }
+
+        .modal-review-item {
+            background: #080a09;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-review-item .r-content {
+            flex: 1;
+        }
+
+        .modal-review-item .r-author {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        .modal-review-item .r-text {
+            color: var(--text-sub);
+            word-break: break-all;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .delete-row-btn {
+            background: rgba(255, 107, 107, 0.08);
+            border: 1px solid rgba(255, 107, 107, 0.25);
+            color: #ff7676;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: 'Pretendard', sans-serif;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .delete-row-btn:hover {
+            background: #ff7676;
+            color: #0d0f0e;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: #060807;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 50px 20px;
+            font-size: 12px;
+            color: var(--text-sub);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 2px;
+        }
+
+        footer p {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <div>
+                BEGA 
+                <img src="https://postfiles.pstatic.net/MjAyNjA4MDZfMjQz/MDAxNzg2MDI3MTQ0NjEz.tXN2dNLHDLXAQjhRdB74ejH3ER5sP6TwJiCkolmaU0Ag.XwrSGD-MdwaqqzCb4rpHzTX85D-beHkQcRnT1YGc26sg.PNG/900_%EB%B0%B0%EA%B0%80%EC%BB%A4%ED%94%BC.png?type=w966" alt="배가커피 로고"> 
+                COFFEE
+            </div>
+            <span>Haute Couture Collection</span>
+        </div>
+        <div class="header-right">
+            <div class="notice">✨ 100% Wild Luwak Essence</div>
+        </div>
+    </header>
+
+    <div class="container" id="menuContainer">
+        <!-- 카테고리별 메뉴가 동적으로 렌더링됩니다 -->
+    </div>
+
+    <!-- 리뷰 작성 및 보기 모달 팝업 -->
+    <div class="modal-overlay" id="reviewModal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modalMenuName">메뉴 이름</div>
+                <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div class="review-input-box">
+                <input type="text" id="modalAuthor" placeholder="작성자 닉네임">
+                <textarea id="modalText" placeholder="이 메뉴에 대한 소중한 리뷰를 남겨주세요..."></textarea>
+                <button class="review-submit-btn" onclick="submitModalReview()">리뷰 등록하기</button>
+            </div>
+
+            <div class="modal-review-list" id="modalReviewList">
+                <!-- 리뷰 목록 -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>BEGA COFFEE HAUTE COUTURE COLLECTION</p>
+        <p style="color: #555; font-size: 11px; margin-top: 10px;">&copy; 2026 BEGA COFFEE. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // 카테고리별 분류된 메뉴 데이터
+        const menuCategories = [
+            {
+                categoryTitle: "Signature & Special",
+                categoryDesc: "배가커피만의 독창적인 감성과 최상급 루왁 원액을 담아낸 시그니처 및 시즌 한정 컬렉션입니다.",
+                items: [
+                    { name: "루왁 퐁당 요거트 스무디", tag: "NEW", type: "new", desc: "루왁의 풍미를 듬뿍 담아 과일 본연의 달콤함을 살리고, 상큼한 요거트를 넣어 누구나 부드럽게 즐기는 스무디.", nutrition: "포화지방: 2.8g | 당류: 100.3g<br>나트륨: 97.9mg | 단백질: 6.2g" },
+                    { name: "초당옥수수 뿡라페", tag: "NEW", type: "new", desc: "여름 제철 초당옥수수 특유의 기분 좋은 단맛과 톡톡 씹히는 루왁을 담아 고소하고 풍성하게 완성한 라페.", nutrition: "포화지방: 4.6g | 당류: 87.8g<br>나트륨: 550.1mg | 단백질: 9.0g" },
+                    { name: "꿀루왁주스", tag: "NEW", type: "new", desc: "100% 루왁 착즙원액에 달콤한 꿀을 더해 본연의 진한 풍미를 살린 여름 시즌 대표 주스 메뉴.", nutrition: "포화지방: 0.1g | 당류: 32.3g<br>나트륨: 10.0mg | 단백질: 1.8g" },
+                    { name: "제로 루왁말차 아이스티", tag: "NEW", type: "new", desc: "말차와 루왁의 산뜻한 조화에 식이섬유를 더해 칼로리 부담 없이 가볍게 즐기는 제로 슈가 아이스티.", nutrition: "포화지방: 0.1g | 당류: 0.0g<br>나트륨: 203.9mg | 단백질: 0.2g" },
+                    { name: "루왁쉐이크", tag: "BEST", type: "best", desc: "루왁 그대로의 묵직한 바디감에 달콤함을 더해 꾸덕하고 진한 풍미를 사계절 내내 선사하는 쉐이크.", nutrition: "포화지방: 4.1g | 당류: 62.4g<br>나트륨: 308.2mg | 단백질: 8.9g" },
+                    { name: "루왁초코젤라또 말차라떼", tag: "ONLY ICE", type: "only", desc: "진하고 꾸덕한 초코 젤라또를 제주산 고품질 말차, 쌉싸름한 루왁에스프레소와 함께 블렌딩한 라떼.", nutrition: "포화지방: 5.1g | 당류: 46.8g<br>나트륨: 82.4mg | 단백질: 10.1g" }
+                ]
+            },
+            {
+                categoryTitle: "Latte & Milk Collection",
+                categoryDesc: "고결한 루왁 에스프레소와 부드러운 우유가 섬세한 조화를 이루는 프리미엄 라떼 라인업입니다.",
+                items: [
+                    { name: "루왁카페라떼", tag: "", type: "", desc: "[기본 2샷] 갓 뽑은 루왁 에스프레소와 부드러운 우유가 어우러져 깊고 고소한 풍미를 완성한 라떼.", nutrition: "포화지방: 3.8g | 당류: 9.2g<br>나트륨: 88.5mg | 단백질: 8.5g" },
+                    { name: "왕배가카페라떼", tag: "GRAND", type: "grand", desc: "[3샷] 진한 루왁 에스프레소와 풍부한 우유로 깊은 여운을 전하는 배가BGC커피만의 시그니처 대용량 라떼.", nutrition: "포화지방: 7.1g | 당류: 28.4g<br>나트륨: 136.2mg | 단백질: 15g" },
+                    { name: "루왁연유라떼", tag: "", type: "", desc: "향기로운 루왁 에스프레소 샷, 부드러운 우유 그리고 달콤한 연유가 조화롭게 어우러진 밀키 라떼.", nutrition: "포화지방: 6.4g | 당류: 32.8g<br>나트륨: 144.6mg | 단백질: 13.0g" },
+                    { name: "루왁카라멜마끼아또", tag: "", type: "", desc: "실크 같은 폼 밀크 속에 진한 루왁 에스프레소와 달콤한 캐러멜을 더해 부드럽게 감싸는 커피.", nutrition: "포화지방: 4.1g | 당류: 26.1g<br>나트륨: 90.7mg | 단백질: 8.9g" },
+                    { name: "루왁헤이즐넛라떼", tag: "", type: "", desc: "부드러운 루왁 카페라떼에 헤이즐넛의 풍부한 향과 은은한 단맛을 담아 향긋하게 즐기는 메뉴.", nutrition: "포화지방: 5.1g | 당류: 9.7g<br>나트륨: 63.1mg | 단백질: 9.1g" },
+                    { name: "루왁바닐라라떼", tag: "", type: "", desc: "부드러운 루왁 카페라떼에 바닐라의 짙은 아로마와 풍부한 폼 밀크가 조화를 이루는 달콤한 라떼.", nutrition: "포화지방: 3.9g | 당류: 23.7g<br>나트륨: 74.1mg | 단백질: 7.1g" },
+                    { name: "루왁카페모카", tag: "", type: "", desc: "초코를 만나 깊어진 루왁 에스프레소, 고소한 우유, 부드러운 휘핑크림이 어우러진 리치한 커피.", nutrition: "포화지방: 8.8g | 당류: 33.9g<br>나트륨: 113.3mg | 단백질: 7.1g" },
+                    { name: "루왁카푸치노", tag: "", type: "", desc: "루왁 에스프레소 위에 섬세하게 올려진 우유 거품과 시나몬 파우더로 클래식한 균형을 잡은 커피.", nutrition: "포화지방: 4.2g | 당류: 1.1g<br>나트륨: 54.8mg | 단백질: 7.0g" },
+                    { name: "루왁라이트바닐라아몬드라떼", tag: "VEGAN", type: "vegan", desc: "아몬드브리즈와 칼로리를 낮춘 라이트 바닐라 시럽이 만나 가볍지만 깊이 있는 부드러움을 주는 라떼.", nutrition: "포화지방: 0.2g | 당류: 3.1g<br>나트륨: 119mg | 단백질: 2.1g" }
+                ]
+            },
+            {
+                categoryTitle: "Black & Americano Series",
+                categoryDesc: "루왁 원두 본연의 깊고 묵직한 바디감과 깔끔한 여운을 가장 순수하게 경험할 수 있는 블랙 라인업입니다.",
+                items: [
+                    { name: "루왁아메리카노", tag: "", type: "", desc: "[기본 2샷] 특별한 루왁 추출 에스프레소에 정제수를 더해 풍부한 바디감과 깔끔함을 극대화한 아메리카노.", nutrition: "포화지방: 0.0g | 당류: 0.0g<br>나트륨: 1.5mg | 단백질: 1.0g" },
+                    { name: "배가리카노", tag: "GRAND", type: "grand", desc: "[3샷] 깊고 진한 배가BGC커피 루왁아메리카노의 웅장한 풍미를 넉넉하게 즐길 수 있는 대용량 블랙.", nutrition: "포화지방: 0.0g | 당류: 0.0g<br>나트륨: 0.7mg | 단백질: 1.5g" },
+                    { name: "루왁헤이즐넛아메리카노", tag: "", type: "", desc: "루왁아메리카노에 헤이즐넛의 은은한 아로마와 깔끔한 단맛을 결합해 세련되게 즐기는 커피.", nutrition: "포화지방: 0.0g | 당류: 15.8g<br>나트륨: 0.6mg | 단백질: 1.0g" },
+                    { name: "루왁꿀아메리카노", tag: "", type: "", desc: "루왁아메리카노의 묵직한 바디감에 사양벌꿀의 부드러운 단맛이 스며들어 깊은 여운을 남기는 커피.", nutrition: "포화지방: 0.1g | 당류: 30.6g<br>나트륨: 7.2mg | 단백질: 0.9g" },
+                    { name: "루왁바닐라아메리카노", tag: "", type: "", desc: "루왁아메리카노에 바닐라 노트를 더해 깔끔하면서도 향긋한 단맛의 밸런스를 구현한 커피.", nutrition: "포화지방: 0.1g | 당류: 20.2g<br>나트륨: 3.6mg | 단백질: 1.1g" }
+                ]
+            }
+        ];
+
+        // 로컬 스토리지 데이터 불러오기
+        let reviewsData = JSON.parse(localStorage.getItem('bega_reviews')) || {};
+        let currentActiveMenu = '';
+
+        window.onload = function() {
+            renderMenuSections();
+        };
+
+        // 카테고리별 메뉴 렌더링
+        function renderMenuSections() {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+
+            menuCategories.forEach(category => {
+                const section = document.createElement('div');
+                section.className = 'menu-section';
+
+                let cardsHtml = '';
+                category.items.forEach(menu => {
+                    let tagHtml = menu.tag ? `<span class="tag">${menu.tag}</span>` : '';
+                    cardsHtml += `
+                        <div class="menu-card ${menu.type === 'new' ? 'new' : ''}" onclick="openModal('${menu.name}')">
+                            ${tagHtml}
+                            <div>
+                                <div class="menu-name">${menu.name}</div>
+                                <div class="menu-desc">${menu.desc}</div>
+                                <div class="nutrition-box">${menu.nutrition}</div>
+                            </div>
+                            <div class="card-click-guide">✨ 클릭하여 리뷰 작성 및 확인</div>
+                        </div>
+                    `;
+                });
+
+                section.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-title"><span>✦</span> ${category.categoryTitle}</div>
+                        <div style="font-size: 13.5px; color: var(--text-sub); margin-bottom: 12px; font-weight: 300;">${category.categoryDesc}</div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <div class="menu-grid">
+                        ${cardsHtml}
+                    </div>
+                `;
+
+                container.appendChild(section);
+            });
+        }
+
+        // 모달 팝업 열기
+        function openModal(menuName) {
+            currentActiveMenu = menuName;
+            document.getElementById('modalMenuName').textContent = menuName;
+            document.getElementById('modalAuthor').value = '';
+            document.getElementById('modalText').value = '';
+            
+            renderModalReviews();
+            document.getElementById('reviewModal').classList.add('open');
+        }
+
+        // 모달 팝업 닫기
+        function closeModal() {
+            document.getElementById('reviewModal').classList.remove('open');
+            currentActiveMenu = '';
+        }
+
+        // 모달 배경 클릭 시 닫기
+        document.getElementById('reviewModal').addEventListener('click', function() {
+            closeModal();
+        });
+
+        // 모달 내 리뷰 등록 (구글 스프레드시트 연동 포함)
+        function submitModalReview() {
+            const authorInput = document.getElementById('modalAuthor');
+            const textInput = document.getElementById('modalText');
+            
+            const author = authorInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!author || !text) {
+                alert('작성자와 리뷰 내용을 모두 입력해주세요.');
+                return;
+            }
+
+            const reviewData = {
+                menuName: currentActiveMenu,
+                author: author,
+                text: text,
+                date: new Date().toLocaleDateString()
+            };
+
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwTU-2YqEYqRDMrSF3IaKYWLIu4yg6vSIEIlrIKu8qkviXF4z8tM2cePcZWtzBIY4lE8w/exec';
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reviewData)
+            })
+            .then(() => {
+                const reviewId = 'rev_' + Date.now() + Math.random().toString(36).substring(2, 9);
+
+                if (!reviewsData[currentActiveMenu]) {
+                    reviewsData[currentActiveMenu] = [];
+                }
+
+                reviewsData[currentActiveMenu].unshift({
+                    id: reviewId,
+                    author: author,
+                    text: text,
+                    date: reviewData.date
+                });
+
+                localStorage.setItem('bega_reviews', JSON.stringify(reviewsData));
+                
+                authorInput.value = '';
+                textInput.value = '';
+
+                renderModalReviews();
+                alert('리뷰가 등록되어 구글 스프레드시트에 실시간 반영되었습니다!');
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('리뷰 저장 중 오류가 발생했습니다.');
+            });
+        }
+
+        // 모달 내 리뷰 리스트 렌더링
+        function renderModalReviews() {
+            const listContainer = document.getElementById('modalReviewList');
+            if (!listContainer) return;
+
+            listContainer.innerHTML = '';
+            const reviews = reviewsData[currentActiveMenu] || [];
+
+            if (reviews.length === 0) {
+                listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px; font-weight:300;">등록된 리뷰가 없습니다. 첫 리뷰를 남겨보세요.</div>`;
+                return;
+            }
+
+            reviews.forEach(r => {
+                const item = document.createElement('div');
+                item.className = 'modal-review-item';
+                item.innerHTML = `
+                    <div class="r-content">
+                        <div class="r-author">${escapeHtml(r.author)} <span style="font-size:10px; color:#5c6661; font-weight:normal;">(${r.date})</span></div>
+                        <div class="r-text">${escapeHtml(r.text)}</div>
+                    </div>
+                    <button class="delete-row-btn" onclick="deleteModalReview('${r.id}')">삭제</button>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        // 개별 리뷰 삭제 함수
+        function deleteModalReview(reviewId) {
+            if (!confirm('이 리뷰를 정말 삭제하시겠습니까?')) return;
+
+            if (reviewsData[currentActiveMenu]) {
+                reviewsData[currentActiveMenu] = reviewsData[currentActiveMenu].filter(r => r.id !== reviewId);
+                if (reviewsData[currentActiveMenu].length === 0) {
+                    delete reviewsData[currentActiveMenu];
+                }
+            }
+
+            localStorage.setItem('bega_reviews', JSON.stringify(reviewsData));
+            renderModalReviews();
+        }
+
+        // XSS 방지 헬퍼
+        function escapeHtml(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
