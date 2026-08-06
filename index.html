@@ -644,7 +644,7 @@
                     id: reviewId,
                     author: author,
                     text: text,
-                    date: `${dateStr} ${timeStr}`
+                    dateTime: `${dateStr} ${timeStr}` // 화면 출력용 날짜+시간
                 });
 
                 localStorage.setItem('bega_reviews', JSON.stringify(reviewsData));
@@ -675,11 +675,13 @@
             }
 
             reviews.forEach(r => {
+                // 기존 데이터 호환을 위해 dateTime이 없으면 r.date 사용
+                const displayTime = r.dateTime || r.date || '';
                 const item = document.createElement('div');
                 item.className = 'modal-review-item';
                 item.innerHTML = `
                     <div class="r-content">
-                        <div class="r-author">${escapeHtml(r.author)} <span style="font-size:10px; color:#5c6661; font-weight:normal;">(${r.date})</span></div>
+                        <div class="r-author">${escapeHtml(r.author)} <span style="font-size:10px; color:#5c6661; font-weight:normal;">(${displayTime})</span></div>
                         <div class="r-text">${escapeHtml(r.text)}</div>
                     </div>
                     <button class="delete-row-btn" onclick="deleteModalReview('${r.id}')">삭제</button>
