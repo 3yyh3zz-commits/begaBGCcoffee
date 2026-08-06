@@ -18,23 +18,93 @@
             --text-sub: #9da6a1;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Pretendard', sans-serif;
             letter-spacing: -0.015em;
-            overflow-x: hidden;
         }
 
         /* 헤더 */
         header {
             background-color: rgba(13, 15, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo img { height: 36px; width: auto; object-fit: contain; }
+
+        .logo > div { display: flex; align-items: center; gap: 8px; }
+
+        .logo span {
+            font-size: 10px;
+            display: block;
+            color: var(--text-sub);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 3px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .notice {
+            font-size: 12px;
+            color: var(--accent-light);
+            border: 1px solid rgba(44, 176, 95, 0.35);
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(44, 176, 95, 0.08);
+            font-weight: 500;
+        }
+        
+        /* ... 이하 생략 (나머지 스타일은 동일함) ... */
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <div>
+                BEGA 
+                <img src="logo.png" alt="배가커피 로고"> 
+                COFFEE
+            </div>
+            <!-- 수정된 부분 -->
+            <span>Saite's Luwak coffee</span>
+        </div>
+        <div class="header-right">
+            <div class="notice">✨ 100% Wild Luwak Essence</div>
+        </div>
+    </header>
+
+    <!-- 나머지 본문 코드도 이전과 동일합니다 -->
+    <div class="container" id="menuContainer"></div>
+
+    <script>
+        /* (이후 자바스크립트 로직 동일) */
+        // ... (이전 코드와 동일하게 붙여넣으시면 됩니다)
+    </script>
+</body>
+</html>            background-color: rgba(13, 15, 14, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             padding: 24px 60px;
