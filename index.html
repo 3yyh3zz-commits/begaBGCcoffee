@@ -608,7 +608,7 @@
             const text = textInput.value.trim();
 
             if (!author || !text) {
-                alert('닉네임과 리뷰 내용 작성해주세요@옷 걱걱걱');
+                alert('닉네임과 리뷰 모두 작성해주세요@옷 걱걱걱');
                 return;
             }
 
@@ -669,7 +669,7 @@
             const reviews = reviewsData[currentActiveMenu] || [];
 
             if (reviews.length === 0) {
-                listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px; font-weight:300;">등록된 리뷰가 없습니다. 첫 리뷰를 남겨보세요.</div>`;
+                listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px; font-weight:300;">등록된 리뷰가 없다냥.. 첫 리뷰를 달아보자냥!</div>`;
                 return;
             }
 
@@ -690,7 +690,7 @@
 
         // 개별 리뷰 삭제 함수
         function deleteModalReview(reviewId) {
-            if (!confirm('정말 이 리뷰를 삭제하시겠습니까?')) return;
+            if (!confirm('진짜 리뷰 삭제할거임? 손나바카나!')) return;
 
             if (reviewsData[currentActiveMenu]) {
                 reviewsData[currentActiveMenu] = reviewsData[currentActiveMenu].filter(r => r.id !== reviewId);
