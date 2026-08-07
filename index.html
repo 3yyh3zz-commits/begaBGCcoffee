@@ -32,6 +32,7 @@
             overflow-x: hidden;
         }
 
+        /* 헤더 */
         header {
             background-color: rgba(13, 15, 14, 0.85);
             backdrop-filter: blur(12px);
@@ -90,12 +91,14 @@
             letter-spacing: 0.5px;
         }
 
+        /* 전체 컨테이너 */
         .container {
             max-width: 1400px;
             margin: 60px auto 100px;
             padding: 0 40px;
         }
 
+        /* 카테고리 섹션 스타일 */
         .menu-section {
             margin-bottom: 80px;
         }
@@ -127,6 +130,7 @@
             opacity: 0.5;
         }
 
+        /* 메뉴 그리드 */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -220,6 +224,7 @@
             color: var(--accent-hover);
         }
 
+        /* 팝업 모달 스타일 */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -299,7 +304,7 @@
             margin-bottom: 24px;
         }
 
-        .review-input-box input,
+        .review-input-box input, 
         .review-input-box textarea {
             width: 100%;
             background: #080a09;
@@ -317,7 +322,7 @@
             height: 90px;
         }
 
-        .review-input-box input:focus,
+        .review-input-box input:focus, 
         .review-input-box textarea:focus {
             outline: none;
             border-color: var(--accent);
@@ -340,11 +345,6 @@
         .review-submit-btn:hover {
             background: var(--accent-hover);
             box-shadow: 0 4px 15px rgba(44, 176, 95, 0.4);
-        }
-
-        .review-submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .modal-review-list {
@@ -386,24 +386,7 @@
             font-weight: 300;
         }
 
-        .delete-row-btn {
-            background: rgba(255, 107, 107, 0.08);
-            border: 1px solid rgba(255, 107, 107, 0.25);
-            color: #ff7676;
-            padding: 4px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 11px;
-            font-family: 'Pretendard', sans-serif;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .delete-row-btn:hover {
-            background: #ff7676;
-            color: #0d0f0e;
-        }
-
+        /* 푸터 */
         footer {
             background-color: #060807;
             border-top: 1px solid var(--border-color);
@@ -425,8 +408,8 @@
     <header>
         <div class="logo">
             <div>
-                BEGA
-                <img src="logo.png" alt="배가커피 로고">
+                BEGA 
+                <img src="logo.png" alt="배가커피 로고"> 
                 COFFEE
             </div>
             <span>Saite's Luwak coffee</span>
@@ -436,9 +419,7 @@
         </div>
     </header>
 
-    <div class="container" id="menuContainer">
-        <!-- 카테고리별 메뉴가 동적으로 렌더링됩니다 -->
-    </div>
+    <div class="container" id="menuContainer"></div>
 
     <!-- 리뷰 작성 및 보기 모달 팝업 -->
     <div class="modal-overlay" id="reviewModal">
@@ -447,15 +428,15 @@
                 <div class="modal-title" id="modalMenuName">메뉴 이름</div>
                 <button class="modal-close-btn" onclick="closeModal()">&times;</button>
             </div>
-
+            
             <div class="review-input-box">
                 <input type="text" id="modalAuthor" placeholder="닉네임 적어주기@잇">
                 <textarea id="modalText" placeholder="소중한 리뷰 한마디 해주세요옷;; 오고곡"></textarea>
-                <button class="review-submit-btn" id="submitBtn" onclick="submitModalReview()">리뷰 등록하기@잇</button>
+                <button class="review-submit-btn" onclick="submitModalReview()">리뷰 등록하기@잇</button>
             </div>
 
             <div class="modal-review-list" id="modalReviewList">
-                <!-- 리뷰 목록 -->
+                <!-- 서버에서 불러온 전체 리뷰 리스트가 여기에 렌더링됩니다 -->
             </div>
         </div>
     </div>
@@ -466,17 +447,16 @@
     </footer>
 
     <script>
-        // 마우스 우클릭 방지
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
 
-        // F12 및 주요 개발자 도구 단축키 차단
         document.addEventListener('keydown', function(e) {
+            const key = e.key.toUpperCase();
             if (
-                e.keyCode === 123 ||
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
-                (e.ctrlKey && e.keyCode === 85)
+                key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'J')) ||
+                (e.ctrlKey && key === 'U')
             ) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -484,11 +464,6 @@
             }
         });
 
-        // ⚠️ 아래 스크립트 URL은 반드시 "새 버전"으로 배포한 Apps Script 웹앱 URL로 교체하세요.
-        // (같이 드린 Code.gs 참고)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZa9c90ZkXQcKBQpGFM9WO6zBeZZOpnxOdyB4wJ2YmSrzILa96Kq8g1XH3FH3oPvIOjg/exec';
-
-        // 카테고리별 분류된 메뉴 데이터
         const menuCategories = [
             {
                 categoryTitle: "Signature & Special",
@@ -514,7 +489,7 @@
                     { name: "루왁바닐라라떼", tag: "", type: "", desc: "부드러운 루왁 카페라떼에 바닐라의 짙은 아로마와 풍부한 폼 밀크가 조화를 이루는 달콤한 라떼.", nutrition: "포화지방: 3.9g | 당류: 23.7g<br>나트륨: 74.1mg | 단백질: 7.1g" },
                     { name: "루왁카페모카", tag: "", type: "", desc: "초코를 만나 깊어진 루왁 에스프레소, 고소한 우유, 부드러운 휘핑크림이 어우러진 리치한 커피.", nutrition: "포화지방: 8.8g | 당류: 33.9g<br>나트륨: 113.3mg | 단백질: 7.1g" },
                     { name: "루왁카푸치노", tag: "", type: "", desc: "루왁 에스프레소 위에 섬세하게 올려진 우유 거품과 시나몬 파우더로 클래식한 균형을 잡은 커피.", nutrition: "포화지방: 4.2g | 당류: 1.1g<br>나트륨: 54.8mg | 단백질: 7.0g" },
-                    { name: "루왁라이트바닐라아몬드라떼", tag: "VEGAN", type: "vegan", desc: "아몬드브리즈와 칼로리를 낮춘 라이트 바닐라 시럽이 만나 가볍지만 깊이 있는 부드러움을 주는 라떼.", nutrition: "포화지방: 0.2g | 당류: 3.1g<br>나트륨: 119mg | 단백질: 2.1g" }
+                    { name: "루왁라이트바닐라아몬드라떼", tag: "VEGAN", type: "vegan", desc: "아몬드브리즈와 칼로리를 낮춘 라이트 라이트 바닐라 시럽이 만나 가볍지만 깊이 있는 부드러움을 주는 라떼.", nutrition: "포화지방: 0.2g | 당류: 3.1g<br>나트륨: 119mg | 단백질: 2.1g" }
                 ]
             },
             {
@@ -530,17 +505,13 @@
             }
         ];
 
-        // 서버(구글 시트)에서 불러온 리뷰를 메뉴명 기준으로 그룹핑해서 담는 캐시
-        let reviewsData = {};
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxXLw0cy2WPaJFHcUnOvnYgIew2Oe02CBKBwfQxqNQkzxdTHAmWB7SwpsIbrrmH-oOf/exec';
         let currentActiveMenu = '';
-        let isLoadingReviews = false;
 
         window.onload = function() {
             renderMenuSections();
-            loadAllReviews();
         };
 
-        // 카테고리별 메뉴 렌더링
         function renderMenuSections() {
             const container = document.getElementById('menuContainer');
             container.innerHTML = '';
@@ -580,65 +551,49 @@
             });
         }
 
-        // ⭐ 모든 방문자가 남긴 리뷰 전체를 구글 시트에서 불러오기 (핵심 추가 기능)
-        function loadAllReviews() {
-            if (isLoadingReviews) return;
-            isLoadingReviews = true;
-
-            fetch(SCRIPT_URL + '?action=list')
-                .then(res => res.json())
-                .then(list => {
-                    const grouped = {};
-                    (list || []).forEach(r => {
-                        if (!grouped[r.menuName]) grouped[r.menuName] = [];
-                        grouped[r.menuName].push(r);
-                    });
-                    Object.keys(grouped).forEach(menu => {
-                        grouped[menu].sort((a, b) => (b.dateTime || '').localeCompare(a.dateTime || ''));
-                    });
-                    reviewsData = grouped;
-                    if (currentActiveMenu) renderModalReviews();
-                })
-                .catch(err => {
-                    console.error('리뷰 목록을 불러오지 못했습니다:', err);
-                })
-                .finally(() => {
-                    isLoadingReviews = false;
-                });
-        }
-
-        // 모달 팝업 열기
+        // 모달 열 때 서버로부터 해당 메뉴의 리뷰 목록을 조회해 옴
         function openModal(menuName) {
             currentActiveMenu = menuName;
             document.getElementById('modalMenuName').textContent = menuName;
             document.getElementById('modalAuthor').value = '';
             document.getElementById('modalText').value = '';
-
-            renderModalReviews();
+            
+            fetchReviewsFromServer(menuName);
             document.getElementById('reviewModal').classList.add('open');
-            // 모달을 열 때마다 최신 리뷰로 한 번 더 갱신 (다른 사람이 방금 남긴 리뷰도 보이도록)
-            loadAllReviews();
         }
 
-        // 모달 팝업 닫기
         function closeModal() {
             document.getElementById('reviewModal').classList.remove('open');
             currentActiveMenu = '';
         }
 
-        // 모달 배경 클릭 시 닫기
         document.getElementById('reviewModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
 
-        // 모달 내 리뷰 등록
+        // 서버에서 리뷰 가져오기 (GET 방식)
+        function fetchReviewsFromServer(menuName) {
+            const listContainer = document.getElementById('modalReviewList');
+            listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px;">리뷰를 불러오는 중이다냥...</div>`;
+
+            fetch(`${scriptURL}?menuName=${encodeURIComponent(menuName)}`)
+                .then(res => res.json())
+                .then(data => {
+                    renderModalReviews(data);
+                })
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                    listContainer.innerHTML = `<div style="font-size:13px; color:#ff7676; text-align:center; padding: 30px;">리뷰를 불러오지 못했다냥ㅠ</div>`;
+                });
+        }
+
+        // 리뷰 등록하기 (POST 방식)
         function submitModalReview() {
             const authorInput = document.getElementById('modalAuthor');
             const textInput = document.getElementById('modalText');
-            const submitBtn = document.getElementById('submitBtn');
-
+            
             const author = authorInput.value.trim();
             const text = textInput.value.trim();
 
@@ -648,103 +603,63 @@
             }
 
             const now = new Date();
-            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
-            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-            const dateTime = `${dateStr} ${timeStr}`;
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
             const reviewData = {
-                action: 'create',
                 menuName: currentActiveMenu,
                 author: author,
                 text: text,
-                date: dateStr,
-                time: timeStr
+                dateTime: dateStr
             };
 
-            // 화면에는 바로 반영(낙관적 업데이트), 실제 저장은 서버에서 처리
-            const tempId = 'temp_' + Date.now();
-            if (!reviewsData[currentActiveMenu]) reviewsData[currentActiveMenu] = [];
-            reviewsData[currentActiveMenu].unshift({ id: tempId, author, text, dateTime });
-            renderModalReviews();
-
-            submitBtn.disabled = true;
-
-            fetch(SCRIPT_URL, {
+            fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // preflight 회피용
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(reviewData)
             })
             .then(() => {
                 authorInput.value = '';
                 textInput.value = '';
                 alert('리뷰가 등록되었다냥 사이테 사랑해 넌 내꼬얌 어흐어흐 츄베릅할쨕낼름쿰척와앙쭈왑으럇으럇탁탁탁탁탁');
-                // 서버 반영 시간을 살짝 두고 전체 목록 재동기화 (임시 id를 실제 데이터로 교체)
-                setTimeout(loadAllReviews, 1200);
+                
+                // 등록 직후 최신 리뷰 목록 다시 불러오기
+                fetchReviewsFromServer(currentActiveMenu);
             })
             .catch(error => {
                 console.error('Error!', error.message);
                 alert('리뷰 저장 중 오류가 생겨버려@엇');
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
             });
         }
 
         // 모달 내 리뷰 리스트 렌더링
-        function renderModalReviews() {
+        function renderModalReviews(reviews) {
             const listContainer = document.getElementById('modalReviewList');
             if (!listContainer) return;
 
             listContainer.innerHTML = '';
-            const reviews = reviewsData[currentActiveMenu] || [];
 
-            if (reviews.length === 0) {
+            if (!reviews || reviews.length === 0) {
                 listContainer.innerHTML = `<div style="font-size:13px; color:#5c6661; text-align:center; padding: 30px; font-weight:300;">등록된 리뷰가 없다냥ㅠ 첫 리뷰를 달아보자냥!</div>`;
                 return;
             }
 
             reviews.forEach(r => {
-                const displayTime = r.dateTime || r.date || '';
                 const item = document.createElement('div');
                 item.className = 'modal-review-item';
                 item.innerHTML = `
                     <div class="r-content">
-                        <div class="r-author">${escapeHtml(r.author)} <span style="font-size:10px; color:#5c6661; font-weight:normal;">(${displayTime})</span></div>
+                        <div class="r-author">${escapeHtml(r.author)} <span style="font-size:10px; color:#5c6661; font-weight:normal;">(${r.dateTime || ''})</span></div>
                         <div class="r-text">${escapeHtml(r.text)}</div>
                     </div>
-                    <button class="delete-row-btn" onclick="deleteModalReview('${r.id}')">삭제</button>
                 `;
                 listContainer.appendChild(item);
             });
         }
 
-        // 개별 리뷰 삭제 함수
-        function deleteModalReview(reviewId) {
-            if (!confirm('진짜 리뷰 삭제할거임? 손나바카나!')) return;
-
-            if (reviewsData[currentActiveMenu]) {
-                reviewsData[currentActiveMenu] = reviewsData[currentActiveMenu].filter(r => r.id !== reviewId);
-                if (reviewsData[currentActiveMenu].length === 0) {
-                    delete reviewsData[currentActiveMenu];
-                }
-            }
-            renderModalReviews();
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'delete', id: reviewId })
-            })
-            .then(() => setTimeout(loadAllReviews, 1200))
-            .catch(error => console.error('삭제 오류:', error));
-        }
-
-        // XSS 방지 헬퍼
         function escapeHtml(str) {
             if (!str) return "";
-            return str.toString().replace(/[&<>'"]/g,
+            return str.toString().replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             );
         }
