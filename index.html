@@ -468,6 +468,91 @@
     </footer>
 
     <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbx0RYGJCAq4_xXueSFeVr36vFrE11Mxj8yv6sjzhCEcHrP3870Cj9xCJIJFX8rOp97Q/exec"; // 여기에 배포된 웹 앱 URL 입력
+
+const form = document.getElementById('review-form');
+const reviewList = document.getElementById('review-list');
+
+// 1. 리뷰 목록 불러오기 (GET)
+async function fetchReviews() {
+  try {
+    const response = await fetch(API_URL);
+    const reviews = await response.json();
+    renderReviews(reviews);
+  } catch (error) {
+    console.error("리뷰 로딩 실패:", error);
+    reviewList.innerHTML = "리뷰를 불러오지 못했습니다.";
+  }
+}
+
+// 2. 화면에 리뷰 그려주기
+function renderReviews(reviews) {
+  reviewList.innerHTML = "";
+  
+  if (!reviews || reviews.length === 0) {
+    reviewList.innerHTML = "<p>아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨보세요!</p>";
+    return;
+  }
+
+  // 최신순으로 보여주기 위해 역순 출력
+  [...reviews].reverse().forEach(review => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <strong>${escapeHtml(review.name)}</strong>
+        <span style="font-size: 0.8rem; color: #888;">${review.date || ''}</span>
+      </div>
+      <p style="margin: 0; white-space: pre-line;">${escapeHtml(review.text)}</p>
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 12px 0;">
+    `;
+    reviewList.appendChild(card);
+  });
+}
+
+// 3. 새 리뷰 등록하기 (POST)
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const nameInput = document.getElementById('reviewer-name');
+  const textInput = document.getElementById('review-text');
+  
+  const payload = {
+    name: nameInput.value,
+    text: textInput.value
+  };
+
+  try {
+    // 버튼 비활성화 등 중복 방지 처리를 할 수도 있습니다.
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    if (result.result === "success") {
+      nameInput.value = "";
+      textInput.value = "";
+      fetchReviews(); // 등록 직후 목록 새로고침
+    } else {
+      alert("리뷰 등록에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("에러 발생:", error);
+    alert("오류가 발생했습니다.");
+  }
+});
+
+// XSS 방지 보안용 함수
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.toString().replace(/[&<>'"]/g, 
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
+}
+
+// 페이지가 열릴 때 리뷰 목록 로드
+fetchReviews();
         // 마우스 우클릭 방지
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
