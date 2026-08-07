@@ -467,21 +467,6 @@
     </footer>
 
     <script>
-        // 리뷰 불러오기 (데이터를 이름으로 정확히 찾음)
-function loadReviews(menuName) {
-    fetch(scriptURL)
-        .then(r => r.json())
-        .then(data => {
-            const list = document.getElementById('reviewList');
-            list.innerHTML = "";
-            
-            // 데이터 중에서 현재 선택한 메뉴와 같은 것만 골라냄
-            data.filter(d => d.menuName === menuName).forEach(d => {
-                list.innerHTML += `<div class="review-item"><strong>${d.author}</strong>: ${d.text}</div>`;
-            });
-        })
-        .catch(err => console.error("데이터 로드 실패:", err));
-}
         // 마우스 우클릭 방지
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
